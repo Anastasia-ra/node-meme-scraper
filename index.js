@@ -8,22 +8,25 @@ async function memescraper() {
   const { body: html } = await got(url);
   const links = htmlUrls({ html, url });
 
-  // Define array in which all urls will be pushed
+  // Array in which all urls will be pushed
   const allUrls = [];
 
   links.forEach((element) => {
     allUrls.push(element.url);
   });
 
-  // Define array of only image urls
+  // Array of only image urls
   const imageUrls = allUrls.filter((element) =>
     element.startsWith('https://api.memegen.link/images'),
   );
 
   // Loop over the array of image urls
   for (let a = 0; a < 10; a++) {
+    // Check if needs to add 0 in front of the image number
+    let path = a === 9 ? `./memes/${a + 1}.jpg` : `./memes/0${a + 1}.jpg`;
+
     // Create file for the [a] image
-    fs.open(`./memes/0${a + 1}.jpg`, 'w', (err) => {
+    fs.open(path, 'w', (err) => {
       if (err) {
         throw err;
       }
@@ -32,9 +35,7 @@ async function memescraper() {
     const imageUrl = imageUrls[a];
 
     fetch(imageUrl)
-      .then((res) =>
-        res.body.pipe(fs.createWriteStream(`./memes/0${a + 1}.jpg`)),
-      )
+      .then((res) => res.body.pipe(fs.createWriteStream(path)))
       .catch((error) => {
         console.log(error);
       });
