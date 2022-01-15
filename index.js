@@ -23,7 +23,7 @@ async function memescraper() {
   // Loop over the array of image urls
   for (let a = 0; a < 10; a++) {
     // Check if needs to add 0 in front of the image number
-    let path = a === 9 ? `./memes/${a + 1}.jpg` : `./memes/0${a + 1}.jpg`;
+    const path = a === 9 ? `./memes/${a + 1}.jpg` : `./memes/0${a + 1}.jpg`;
 
     // Create file for the [a] image
     fs.open(path, 'w', (err) => {
